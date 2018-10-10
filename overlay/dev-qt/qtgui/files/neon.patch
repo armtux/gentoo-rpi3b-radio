@@ -1,0 +1,174 @@
+diff -urN old/src/gui/image/qimage_conversions.cpp new/src/gui/image/qimage_conversions.cpp
+--- old/src/gui/image/qimage_conversions.cpp	2018-06-15 07:29:31.000000000 -0000
++++ new/src/gui/image/qimage_conversions.cpp	2018-09-29 01:30:39.628301376 -0000
+@@ -2997,7 +2997,7 @@
+     }
+ #endif
+ 
+-#if defined(__ARM_NEON__)
++#if defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+     extern void convert_RGB888_to_RGB32_neon(QImageData *dest, const QImageData *src, Qt::ImageConversionFlags);
+     qimage_converter_map[QImage::Format_RGB888][QImage::Format_RGB32] = convert_RGB888_to_RGB32_neon;
+     qimage_converter_map[QImage::Format_RGB888][QImage::Format_ARGB32] = convert_RGB888_to_RGB32_neon;
+diff -urN old/src/gui/image/qimage_neon.cpp new/src/gui/image/qimage_neon.cpp
+--- old/src/gui/image/qimage_neon.cpp	2018-06-15 07:29:31.000000000 -0000
++++ new/src/gui/image/qimage_neon.cpp	2018-09-29 01:31:11.228301961 -0000
+@@ -41,7 +41,7 @@
+ #include <private/qimage_p.h>
+ #include <private/qsimd_p.h>
+ 
+-#if defined(__ARM_NEON__)
++#if defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+ 
+ QT_BEGIN_NAMESPACE
+ 
+@@ -135,4 +135,4 @@
+ 
+ QT_END_NAMESPACE
+ 
+-#endif // defined(__ARM_NEON__)
++#endif // defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+diff -urN old/src/gui/painting/qdrawhelper.cpp new/src/gui/painting/qdrawhelper.cpp
+--- old/src/gui/painting/qdrawhelper.cpp	2018-06-15 07:29:31.000000000 -0000
++++ new/src/gui/painting/qdrawhelper.cpp	2018-09-29 02:04:48.358339285 -0000
+@@ -1821,7 +1821,7 @@
+ }
+ #endif
+ 
+-#if defined(__ARM_NEON__)
++#if defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+ #define interpolate_4_pixels_16_neon(tl, tr, bl, br, distx, disty, disty_, colorMask, invColorMask, v_256, b)  \
+ { \
+     const int16x8_t dxdy = vmulq_s16(distx, disty); \
+@@ -2013,7 +2013,7 @@
+             rRB = _mm_srli_epi16(rRB, 8);
+             _mm_storeu_si128((__m128i*)(&intermediate_buffer[0][f]), rRB);
+         }
+-#elif defined(__ARM_NEON__)
++#elif defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+         const int16x8_t disty_ = vdupq_n_s16(disty);
+         const int16x8_t idisty_ = vdupq_n_s16(idisty);
+         const int16x8_t colorMask = vdupq_n_s16(0x00ff);
+@@ -2199,7 +2199,7 @@
+             v_fx = _mm_add_epi32(v_fx, v_fdx);
+         }
+         fx = _mm_cvtsi128_si32(v_fx);
+-#elif defined(__ARM_NEON__)
++#elif defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+         const int16x8_t colorMask = vdupq_n_s16(0x00ff);
+         const int16x8_t invColorMask = vmvnq_s16(colorMask);
+         const int16x8_t v_256 = vdupq_n_s16(256);
+@@ -2409,7 +2409,7 @@
+         }
+         fx = _mm_cvtsi128_si32(v_fx);
+         fy = _mm_cvtsi128_si32(v_fy);
+-#elif defined(__ARM_NEON__)
++#elif defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+         const int16x8_t colorMask = vdupq_n_s16(0x00ff);
+         const int16x8_t invColorMask = vmvnq_s16(colorMask);
+         const int16x8_t v_256 = vdupq_n_s16(256);
+@@ -6259,7 +6259,7 @@
+     qt_memfill_template<quint16>(dest, color, count);
+ }
+ #endif
+-#if !defined(__SSE2__) && !defined(__ARM_NEON__) && !defined(__MIPS_DSP__)
++#if !defined(__SSE2__) && (!defined(__ARM_NEON__) || defined(Q_PROCESSOR_ARM_64)) && !defined(__MIPS_DSP__)
+ void qt_memfill32(quint32 *dest, quint32 color, int count)
+ {
+     qt_memfill_template<quint32>(dest, color, count);
+@@ -6416,7 +6416,7 @@
+ 
+ #endif // SSE2
+ 
+-#if defined(__ARM_NEON__)
++#if defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+     qBlendFunctions[QImage::Format_RGB32][QImage::Format_RGB32] = qt_blend_rgb32_on_rgb32_neon;
+     qBlendFunctions[QImage::Format_ARGB32_Premultiplied][QImage::Format_RGB32] = qt_blend_rgb32_on_rgb32_neon;
+     qBlendFunctions[QImage::Format_RGB32][QImage::Format_ARGB32_Premultiplied] = qt_blend_argb32_on_argb32_neon;
+@@ -6468,7 +6468,7 @@
+     qMemRotateFunctions[QPixelLayout::BPP16][0] = qt_memrotate90_16_neon;
+     qMemRotateFunctions[QPixelLayout::BPP16][2] = qt_memrotate270_16_neon;
+ #endif
+-#endif // defined(__ARM_NEON__)
++#endif // defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+ 
+ #if defined(__MIPS_DSP__)
+     // Composition functions are all DSP r1
+diff -urN old/src/gui/painting/qimagescale.cpp new/src/gui/painting/qimagescale.cpp
+--- old/src/gui/painting/qimagescale.cpp	2018-06-15 07:29:31.000000000 -0000
++++ new/src/gui/painting/qimagescale.cpp	2018-09-29 01:49:24.468322190 -0000
+@@ -283,7 +283,7 @@
+                                        int dw, int dh, int dow, int sow);
+ #endif
+ 
+-#if defined(__ARM_NEON__)
++#if defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+ template<bool RGB>
+ void qt_qimageScaleAARGBA_up_x_down_y_neon(QImageScaleInfo *isi, unsigned int *dest,
+                                            int dw, int dh, int dow, int sow);
+@@ -347,7 +347,7 @@
+         if (qCpuHasFeature(SSE4_1))
+             qt_qimageScaleAARGBA_up_x_down_y_sse4<false>(isi, dest, dw, dh, dow, sow);
+         else
+-#elif defined(__ARM_NEON__)
++#elif defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+         if (qCpuHasFeature(NEON))
+             qt_qimageScaleAARGBA_up_x_down_y_neon<false>(isi, dest, dw, dh, dow, sow);
+         else
+@@ -360,7 +360,7 @@
+         if (qCpuHasFeature(SSE4_1))
+             qt_qimageScaleAARGBA_down_x_up_y_sse4<false>(isi, dest, dw, dh, dow, sow);
+         else
+-#elif defined(__ARM_NEON__)
++#elif defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+         if (qCpuHasFeature(NEON))
+             qt_qimageScaleAARGBA_down_x_up_y_neon<false>(isi, dest, dw, dh, dow, sow);
+         else
+@@ -373,7 +373,7 @@
+         if (qCpuHasFeature(SSE4_1))
+             qt_qimageScaleAARGBA_down_xy_sse4<false>(isi, dest, dw, dh, dow, sow);
+         else
+-#elif defined(__ARM_NEON__)
++#elif defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+         if (qCpuHasFeature(NEON))
+             qt_qimageScaleAARGBA_down_xy_neon<false>(isi, dest, dw, dh, dow, sow);
+         else
+@@ -552,7 +552,7 @@
+         if (qCpuHasFeature(SSE4_1))
+             qt_qimageScaleAARGBA_up_x_down_y_sse4<true>(isi, dest, dw, dh, dow, sow);
+         else
+-#elif defined(__ARM_NEON__)
++#elif defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+         if (qCpuHasFeature(NEON))
+             qt_qimageScaleAARGBA_up_x_down_y_neon<true>(isi, dest, dw, dh, dow, sow);
+         else
+@@ -565,7 +565,7 @@
+         if (qCpuHasFeature(SSE4_1))
+             qt_qimageScaleAARGBA_down_x_up_y_sse4<true>(isi, dest, dw, dh, dow, sow);
+         else
+-#elif defined(__ARM_NEON__)
++#elif defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+         if (qCpuHasFeature(NEON))
+             qt_qimageScaleAARGBA_down_x_up_y_neon<true>(isi, dest, dw, dh, dow, sow);
+         else
+@@ -578,7 +578,7 @@
+         if (qCpuHasFeature(SSE4_1))
+             qt_qimageScaleAARGBA_down_xy_sse4<true>(isi, dest, dw, dh, dow, sow);
+         else
+-#elif defined(__ARM_NEON__)
++#elif defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+         if (qCpuHasFeature(NEON))
+             qt_qimageScaleAARGBA_down_xy_neon<true>(isi, dest, dw, dh, dow, sow);
+         else
+diff -urN old/src/plugins/imageformats/jpeg/qjpeghandler.cpp new/src/plugins/imageformats/jpeg/qjpeghandler.cpp
+--- old/src/plugins/imageformats/jpeg/qjpeghandler.cpp	2018-06-15 07:29:31.000000000 -0000
++++ new/src/plugins/imageformats/jpeg/qjpeghandler.cpp	2018-09-29 01:35:16.068306492 -0000
+@@ -973,7 +973,7 @@
+ QJpegHandler::QJpegHandler()
+     : d(new QJpegHandlerPrivate(this))
+ {
+-#if defined(__ARM_NEON__)
++#if defined(__ARM_NEON__) && !defined(Q_PROCESSOR_ARM_64)
+     // from qimage_neon.cpp
+     if (qCpuHasFeature(NEON))
+         d->rgb888ToRgb32ConverterPtr = qt_convert_rgb888_to_rgb32_neon;
