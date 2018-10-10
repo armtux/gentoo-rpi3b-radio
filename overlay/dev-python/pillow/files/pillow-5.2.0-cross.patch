@@ -1,0 +1,21 @@
+Common subdirectories: old/Tests and new/Tests
+Common subdirectories: old/depends and new/depends
+Common subdirectories: old/docs and new/docs
+diff -u old/setup.py new/setup.py
+--- old/setup.py	2018-07-01 19:02:58.000000000 -0000
++++ new/setup.py	2018-09-26 05:09:17.003747960 -0000
+@@ -278,10 +278,11 @@
+                 for d in os.environ[k].split(os.path.pathsep):
+                     _add_directory(library_dirs, d)
+ 
+-        prefix = sysconfig.get_config_var("prefix")
++        prefix = os.environ.get("PREFIX")
+         if prefix:
+             _add_directory(library_dirs, os.path.join(prefix, "lib"))
+             _add_directory(include_dirs, os.path.join(prefix, "include"))
++            _add_directory(include_dirs, os.path.join(prefix, "include/python2.7"))
+ 
+         #
+         # add platform directories
+Common subdirectories: old/src and new/src
+Common subdirectories: old/winbuild and new/winbuild
