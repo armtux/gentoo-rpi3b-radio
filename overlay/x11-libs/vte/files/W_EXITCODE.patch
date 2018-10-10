@@ -1,0 +1,14 @@
+diff -x .git -urN old/src/widget.cc new/src/widget.cc
+--- old/src/widget.cc	2018-09-24 20:43:05.000000000 -0000
++++ new/src/widget.cc	2018-09-28 23:16:14.038152134 -0000
+@@ -22,6 +22,10 @@
+ 
+ #include <sys/wait.h> // for W_EXITCODE
+ 
++#ifndef W_EXITCODE
++# define W_EXITCODE(ret, sig)  ((ret) << 8 | (sig))
++#endif
++
+ #include <new>
+ #include <string>
+ 

@@ -1,0 +1,40 @@
+diff -urN old/Makefile new/Makefile
+--- old/Makefile	2018-04-30 02:19:13.511980598 -0000
++++ new/Makefile	2018-04-30 19:11:18.323104226 -0000
+@@ -1,10 +1,11 @@
+ VERSION = $(shell git describe --tags)
+-PREFIX = /usr/local
++PREFIX = /usr
+ GTK = gtk+-3.0
+ VTE = vte-2.91
+ TERMINFO = ${PREFIX}/share/terminfo
+ 
+-CXXFLAGS := -std=c++11 -O3 \
++CXXFLAGS := ${CXXFLAGS} \
++	    -std=c++11 \
+ 	    -Wall -Wextra -pedantic \
+ 	    -Winit-self \
+ 	    -Wshadow \
+@@ -18,8 +19,7 @@
+ 	    -DNDEBUG \
+ 	    -D_POSIX_C_SOURCE=200809L \
+ 	    -DTERMITE_VERSION=\"${VERSION}\" \
+-	    ${shell pkg-config --cflags ${GTK} ${VTE}} \
+-	    ${CXXFLAGS}
++	    ${shell ${CROSS_COMPILE}pkg-config --cflags ${GTK} ${VTE}}
+ 
+ ifeq (${CXX}, g++)
+ 	CXXFLAGS += -Wno-missing-field-initializers
+@@ -30,10 +30,10 @@
+ endif
+ 
+ LDFLAGS := -s -Wl,--as-needed ${LDFLAGS}
+-LDLIBS := ${shell pkg-config --libs ${GTK} ${VTE}}
++LDLIBS := ${shell ${CROSS_COMPILE}pkg-config --libs ${GTK} ${VTE}}
+ 
+ termite: termite.cc url_regex.hh util/clamp.hh util/maybe.hh util/memory.hh
+-	${CXX} ${CXXFLAGS} ${LDFLAGS} $< ${LDLIBS} -o $@
++	${CROSS_COMPILE}${CXX} ${CXXFLAGS} ${LDFLAGS} $< ${LDLIBS} -o $@
+ 
+ install: termite termite.desktop termite.terminfo
+ 	mkdir -p ${DESTDIR}${TERMINFO}

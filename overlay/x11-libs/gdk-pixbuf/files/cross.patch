@@ -1,0 +1,78 @@
+diff -urN old/gdk-pixbuf/Makefile.am new/gdk-pixbuf/Makefile.am
+--- old/gdk-pixbuf/Makefile.am	2017-10-02 15:24:27.000000000 -0000
++++ new/gdk-pixbuf/Makefile.am	2018-04-29 21:07:09.391634134 -0000
+@@ -705,17 +705,14 @@
+ uninstall-local:
+ 	rm -f $(DESTDIR)$(libdir)/gdk-pixbuf-2.0/$(GDK_PIXBUF_BINARY_VERSION)/loaders.cache
+ 
+-if CROSS_COMPILING
+-else
+ all-local: loaders.cache
+-endif
+ 
+ if BUILD_DYNAMIC_MODULES
+ loaders.cache: $(loader_LTLIBRARIES) gdk-pixbuf-query-loaders$(EXEEXT)
+ 	LOADERS=`echo libpixbufloader-*.la` ; \
+ 	if test "x$$LOADERS" != 'xlibpixbufloader-*.la' ; then \
+           echo "Writing a loaders.cache file to use when running examples before installing gdk-pixbuf."; \
+-	  $(top_builddir)/gdk-pixbuf/gdk-pixbuf-query-loaders$(EXEEXT) $$LOADERS > ./loaders.cache ;\
++	  gdk-pixbuf-query-loaders $$LOADERS > ./loaders.cache ;\
+ 	else \
+           echo "No dynamic modules found; will use only static modules for uninstalled example programs."; \
+ 	  touch loaders.cache; \
+diff -urN old/thumbnailer/Makefile.am new/thumbnailer/Makefile.am
+--- old/thumbnailer/Makefile.am	2017-02-13 15:58:32.000000000 -0000
++++ new/thumbnailer/Makefile.am	2018-04-29 20:42:32.401606805 -0000
+@@ -1,5 +1,4 @@
+-bin_PROGRAMS = gdk-pixbuf-thumbnailer
+-noinst_PROGRAMS = gdk-pixbuf-print-mime-types
++bin_PROGRAMS = gdk-pixbuf-thumbnailer gdk-pixbuf-print-mime-types
+ 
+ gdk_pixbuf_thumbnailer_SOURCES = gdk-pixbuf-thumbnailer.c gnome-thumbnailer-skeleton.c gnome-thumbnailer-skeleton.h
+ gdk_pixbuf_thumbnailer_CPPFLAGS =			\
+@@ -25,9 +24,9 @@
+ 
+ thumbnailerdir = $(datadir)/thumbnailers/
+ thumbnailer_DATA = gdk-pixbuf-thumbnailer.thumbnailer
+-gdk-pixbuf-thumbnailer.thumbnailer: gdk-pixbuf-thumbnailer.thumbnailer.in Makefile gdk-pixbuf-print-mime-types$(EXEEXT) $(top_builddir)/gdk-pixbuf/loaders.cache
++gdk-pixbuf-thumbnailer.thumbnailer: gdk-pixbuf-thumbnailer.thumbnailer.in Makefile gdk-pixbuf-print-mime-types$(EXEEXT)
+ 	$(AM_V_GEN) $(SED) -e "s|\@bindir\@|$(bindir)|"						\
+-	-e "s|\@mimetypes\@|`GDK_PIXBUF_MODULE_FILE=$(top_builddir)/gdk-pixbuf/loaders.cache GDK_PIXBUF_PIXDATA=$(top_builddir)/gdk-pixbuf/gdk-pixbuf-pixdata $(builddir)/gdk-pixbuf-print-mime-types`|" \
++	-e "s|\@mimetypes\@|`gdk-pixbuf-print-mime-types`|" \
+ 	$< > $@
+ 
+ EXTRA_DIST = gdk-pixbuf-thumbnailer.thumbnailer.in
+diff -urN old/thumbnailer/Makefile.in new/thumbnailer/Makefile.in
+--- old/thumbnailer/Makefile.in	2018-04-07 18:42:25.000000000 -0000
++++ new/thumbnailer/Makefile.in	2018-04-29 21:59:15.471691978 -0000
+@@ -866,9 +866,9 @@
+ 
+ .PRECIOUS: Makefile
+ 
+-gdk-pixbuf-thumbnailer.thumbnailer: gdk-pixbuf-thumbnailer.thumbnailer.in Makefile gdk-pixbuf-print-mime-types$(EXEEXT) $(top_builddir)/gdk-pixbuf/loaders.cache
++gdk-pixbuf-thumbnailer.thumbnailer: gdk-pixbuf-thumbnailer.thumbnailer.in Makefile gdk-pixbuf-print-mime-types$(EXEEXT)
+ 	$(AM_V_GEN) $(SED) -e "s|\@bindir\@|$(bindir)|"						\
+-	-e "s|\@mimetypes\@|`GDK_PIXBUF_MODULE_FILE=$(top_builddir)/gdk-pixbuf/loaders.cache GDK_PIXBUF_PIXDATA=$(top_builddir)/gdk-pixbuf/gdk-pixbuf-pixdata $(builddir)/gdk-pixbuf-print-mime-types`|" \
++	-e "s|\@mimetypes\@|`GDK_PIXBUF_PIXDATA=$(top_builddir)/gdk-pixbuf/gdk-pixbuf-pixdata gdk-pixbuf-print-mime-types`|" \
+ 	$< > $@
+ 
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+diff -urN old/thumbnailer/meson.build new/thumbnailer/meson.build
+--- old/thumbnailer/meson.build	2017-08-07 16:52:44.000000000 -0000
++++ new/thumbnailer/meson.build	2018-04-29 21:48:10.341679671 -0000
+@@ -19,7 +19,6 @@
+                 gen_thumbnailer,
+                 '--printer=@0@'.format(gdk_pixbuf_print_mime_types.full_path()),
+                 '--pixdata=@0@'.format(gdk_pixbuf_pixdata.full_path()),
+-                '--loaders=@0@'.format(loaders_cache.full_path()),
+                 '--bindir=@0@'.format(gdk_pixbuf_bindir),
+                 '@INPUT@',
+                 '@OUTPUT@',
+@@ -27,7 +26,6 @@
+               depends: [
+                 gdk_pixbuf_print_mime_types,
+                 gdk_pixbuf_pixdata,
+-                loaders_cache,
+               ],
+               install: true,
+               install_dir: join_paths(gdk_pixbuf_datadir, 'thumbnailers'))
