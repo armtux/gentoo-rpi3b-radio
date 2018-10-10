@@ -1,0 +1,12 @@
+diff -urN old/backend/session/direct.c new/backend/session/direct.c
+--- old/backend/session/direct.c	2018-10-04 22:35:50.997699568 -0000
++++ new/backend/session/direct.c	2018-10-04 22:39:17.277703385 -0000
+@@ -179,7 +179,7 @@
+ 	if (kd_mode != KD_TEXT) {
+ 		wlr_log(WLR_ERROR,
+ 			"tty already in graphics mode; is another display server running?");
+-		goto error;
++	//	goto error;
+ 	}
+ 
+ 	ioctl(fd, VT_ACTIVATE, tty);
