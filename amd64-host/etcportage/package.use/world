@@ -1,0 +1,10 @@
+dev-python/numpy lapack
+dev-libs/libpcre2 pcre16
+x11-libs/libdrm libkms
+x11-libs/libxkbcommon X
+x11-libs/libxcb xkb
+dev-python/PyQt5 opengl gui widgets
+net-wireless/gqrx gr-audio
+net-libs/zeromq drafts
+dev-qt/qtnetwork -ssl
+media-sound/alsa-utils -libsamplerate

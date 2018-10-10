@@ -1,0 +1,12 @@
+net-wireless/gr-scan **
+net-wireless/gr-iio ~amd64
+net-wireless/rfcat ~amd64
+net-wireless/gr-air-modes **
+net-wireless/gr-specest **
+net-wireless/dump1090 ~amd64
+net-wireless/gr-rds **
+net-wireless/gr-doa **
+net-wireless/gr-baz **
+net-wireless/gr-rftap **
+net-libs/libiio ~amd64
+net-libs/libad9361-iio ~amd64

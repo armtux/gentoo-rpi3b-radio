@@ -1,0 +1,36 @@
+sys-apps/busybox -static make-symlinks savedconfig syslog
+#sys-apps/file -zlib
+#sys-apps/kmod -zlib
+#dev-libs/libpcre -zlib
+sys-fs/eudev -hwdb
+media-libs/mesa -classic -dri3 gallium wayland gles2
+dev-libs/sway swaybar swaylock tray
+x11-libs/gdk-pixbuf jpeg
+x11-libs/vte -crypt vanilla
+x11-libs/libva -drm
+media-video/mpv -xv -lua vaapi -zsh-completion cli
+media-video/ffmpeg -bzip2 alsa truetype libass mp3 vaapi vpx xvid cpu_flags_arm_v8 cpu_flags_arm_neon cpu_flags_arm_vfpv3 cpu_flags_arm_thumb2 cpu_flags_arm_v6 cpu_flags_arm_vfp cpu_flags_arm_thumb
+virutal/ffmpeg -bzip2 alsa truetype libass mp3 vaapi vpx xvid cpu_flags_arm_v8 cpu_flags_arm_neon cpu_flags_arm_vfpv3 cpu_flags_arm_thumb2 cpu_flags_arm_v6 cpu_flags_arm_vfp cpu_flags_arm_thumb
+net-irc/irssi -perl
+media-sound/alsa-utils -libsamplerate
+media-libs/libsdl2 gles
+media-libs/freeimage jpeg png
+net-wireless/bluez -obex
+sys-apps/hwids -pci
+sys-fs/lvm2 -thin
+sys-fs/cryptsetup -argon2 -gcrypt openssl
+sys-libs/pam cracklib
+dev-libs/wlroots libcap
+dev-db/sqlite secure-delete
+media-libs/libvpx postproc
+media-libs/libpng apng
+www-client/firefox system-harfbuzz system-icu system-jpeg system-libvpx -system-sqlite -system-cairo -X wayland
+dev-python/PyQt5 opengl gui widgets
+dev-libs/libpcre2 pcre16
+dev-python/numpy lapack
+net-wireless/gnuradio channels dtv fec noaa zeromq vocoder
+net-wireless/gqrx gr-audio
+net-libs/zeromq drafts
+dev-qt/qtnetwork -ssl
+sys-devel/gcc fortran
+net-wireless/gr-osmosdr iqbalance
