@@ -1,0 +1,22 @@
+diff -urN old/src/CMakeLists.txt new/src/CMakeLists.txt
+--- old/src/CMakeLists.txt	2018-05-03 13:40:48.000000000 -0000
++++ new/src/CMakeLists.txt	2018-09-30 22:04:27.481269870 -0000
+@@ -75,12 +75,12 @@
+ 
+ # when crosscompiling we need a native executable
+ if(CMAKE_CROSSCOMPILING)
+-    include(ExternalProject)
+-    ExternalProject_Add(codec2_native
+-       SOURCE_DIR ${CMAKE_SOURCE_DIR}
+-       BUILD_COMMAND $(MAKE) generate_codebook
+-       INSTALL_COMMAND ${CMAKE_COMMAND} -E copy src/generate_codebook ${CMAKE_CURRENT_BINARY_DIR}
+-    )
++    #include(ExternalProject)
++    #ExternalProject_Add(codec2_native
++    #   SOURCE_DIR ${CMAKE_SOURCE_DIR}
++    #   BUILD_COMMAND $(MAKE) generate_codebook
++    #   INSTALL_COMMAND ${CMAKE_COMMAND} -E copy src/generate_codebook ${CMAKE_CURRENT_BINARY_DIR}
++    #)
+     add_executable(generate_codebook IMPORTED)
+     set_target_properties(generate_codebook PROPERTIES
+         IMPORTED_LOCATION ${CMAKE_CURRENT_BINARY_DIR}/generate_codebook)
