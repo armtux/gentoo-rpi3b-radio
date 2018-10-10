@@ -1,0 +1,9 @@
+# Copyright 1999-2018 Gentoo Foundation.
+# Distributed under the terms of the GNU General Public License v2
+
+CHOST="armv6j-unknown-linux-musleabihf"
+CFLAGS="-O2 -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s -pipe -fomit-frame-pointer"
+#CFLAGS="-O2 -pipe -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=hard"
+CXXFLAGS="${CFLAGS}"
+FFLAGS="${CFLAGS}"
+FCFLAGS="${CFLAGS}"

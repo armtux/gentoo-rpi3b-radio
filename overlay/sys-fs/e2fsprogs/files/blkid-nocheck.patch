@@ -1,0 +1,264 @@
+diff -urN old/configure new/configure
+--- old/configure	2018-05-03 00:23:09.649955825 -0000
++++ new/configure	2018-05-03 00:40:13.019949204 -0000
+@@ -5503,136 +5503,136 @@
+ BLKID_CMT=
+ 
+ # Check whether --enable-libblkid was given.
+-if test "${enable_libblkid+set}" = set; then :
+-  enableval=$enable_libblkid; if test "$enableval" = "no"
+-then
+-	if test -z "$PKG_CONFIG"; then
+-		as_fn_error $? "pkg-config not installed; please install it." "$LINENO" 5
+-	fi
+-
+-	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for blkid_get_cache in -lblkid" >&5
+-$as_echo_n "checking for blkid_get_cache in -lblkid... " >&6; }
+-if ${ac_cv_lib_blkid_blkid_get_cache+:} false; then :
+-  $as_echo_n "(cached) " >&6
+-else
+-  ac_check_lib_save_LIBS=$LIBS
+-LIBS="-lblkid -luuid $LIBS"
+-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+-/* end confdefs.h.  */
+-
+-/* Override any GCC internal prototype to avoid an error.
+-   Use char because int might match the return type of a GCC
+-   builtin and then its argument prototype would still apply.  */
+-#ifdef __cplusplus
+-extern "C"
+-#endif
+-char blkid_get_cache ();
+-int
+-main ()
+-{
+-return blkid_get_cache ();
+-  ;
+-  return 0;
+-}
+-_ACEOF
+-if ac_fn_c_try_link "$LINENO"; then :
+-  ac_cv_lib_blkid_blkid_get_cache=yes
+-else
+-  ac_cv_lib_blkid_blkid_get_cache=no
+-fi
+-rm -f core conftest.err conftest.$ac_objext \
+-    conftest$ac_exeext conftest.$ac_ext
+-LIBS=$ac_check_lib_save_LIBS
+-fi
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_blkid_blkid_get_cache" >&5
+-$as_echo "$ac_cv_lib_blkid_blkid_get_cache" >&6; }
+-if test "x$ac_cv_lib_blkid_blkid_get_cache" = xyes; then :
++#if test "${enable_libblkid+set}" = set; then :
++#  enableval=$enable_libblkid; if test "$enableval" = "no"
++#then
++#	if test -z "$PKG_CONFIG"; then
++#		as_fn_error $? "pkg-config not installed; please install it." "$LINENO" 5
++#	fi
++#
++#	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for blkid_get_cache in -lblkid" >&5
++#$as_echo_n "checking for blkid_get_cache in -lblkid... " >&6; }
++#if ${ac_cv_lib_blkid_blkid_get_cache+:} false; then :
++#  $as_echo_n "(cached) " >&6
++#else
++#  ac_check_lib_save_LIBS=$LIBS
++#LIBS="-lblkid -luuid $LIBS"
++#cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++#/* end confdefs.h.  */
++#
++#/* Override any GCC internal prototype to avoid an error.
++#   Use char because int might match the return type of a GCC
++#   builtin and then its argument prototype would still apply.  */
++##ifdef __cplusplus
++#extern "C"
++##endif
++#char blkid_get_cache ();
++#int
++#main ()
++#{
++#return blkid_get_cache ();
++#  ;
++#  return 0;
++#}
++#_ACEOF
++#if ac_fn_c_try_link "$LINENO"; then :
++#  ac_cv_lib_blkid_blkid_get_cache=yes
++#else
++#  ac_cv_lib_blkid_blkid_get_cache=no
++#fi
++#rm -f core conftest.err conftest.$ac_objext \
++#    conftest$ac_exeext conftest.$ac_ext
++#LIBS=$ac_check_lib_save_LIBS
++#fi
++#{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_blkid_blkid_get_cache" >&5
++#$as_echo "$ac_cv_lib_blkid_blkid_get_cache" >&6; }
++#if test "x$ac_cv_lib_blkid_blkid_get_cache" = xyes; then :
+   LIBBLKID=`$PKG_CONFIG --libs blkid`;
+ 		 STATIC_LIBBLKID=`$PKG_CONFIG --static --libs blkid`
+-else
+-  as_fn_error $? "external blkid library not found" "$LINENO" 5
+-fi
++#else
++#  as_fn_error $? "external blkid library not found" "$LINENO" 5
++#fi
+ 
+ 	BLKID_CMT=#
+ 	PROFILED_LIBBLKID=$LIBBLKID
+-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: Disabling private blkid library" >&5
+-$as_echo "Disabling private blkid library" >&6; }
+-else
+-	LIBBLKID='$(LIB)/libblkid'$LIB_EXT
+-	DEPLIBBLKID=$LIBBLKID
+-	STATIC_LIBBLKID='$(LIB)/libblkid'$STATIC_LIB_EXT
+-	DEPSTATIC_LIBBLKID=$STATIC_LIBBLKID
+-	PROFILED_LIBBLKID='$(LIB)/libblkid'$PROFILED_LIB_EXT
+-	DEPPROFILED_LIBBLKID=$PROFILED_LIBBLKID
+-	$as_echo "#define CONFIG_BUILD_FINDFS 1" >>confdefs.h
+-
+-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: Enabling private blkid library" >&5
+-$as_echo "Enabling private blkid library" >&6; }
+-fi
+-
+-else
+-  if test -n "$PKG_CONFIG"; then
+-	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for blkid_get_cache in -lblkid" >&5
+-$as_echo_n "checking for blkid_get_cache in -lblkid... " >&6; }
+-if ${ac_cv_lib_blkid_blkid_get_cache+:} false; then :
+-  $as_echo_n "(cached) " >&6
+-else
+-  ac_check_lib_save_LIBS=$LIBS
+-LIBS="-lblkid  $LIBS"
+-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+-/* end confdefs.h.  */
+-
+-/* Override any GCC internal prototype to avoid an error.
+-   Use char because int might match the return type of a GCC
+-   builtin and then its argument prototype would still apply.  */
+-#ifdef __cplusplus
+-extern "C"
+-#endif
+-char blkid_get_cache ();
+-int
+-main ()
+-{
+-return blkid_get_cache ();
+-  ;
+-  return 0;
+-}
+-_ACEOF
+-if ac_fn_c_try_link "$LINENO"; then :
+-  ac_cv_lib_blkid_blkid_get_cache=yes
+-else
+-  ac_cv_lib_blkid_blkid_get_cache=no
+-fi
+-rm -f core conftest.err conftest.$ac_objext \
+-    conftest$ac_exeext conftest.$ac_ext
+-LIBS=$ac_check_lib_save_LIBS
+-fi
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_blkid_blkid_get_cache" >&5
+-$as_echo "$ac_cv_lib_blkid_blkid_get_cache" >&6; }
+-if test "x$ac_cv_lib_blkid_blkid_get_cache" = xyes; then :
+-  LIBBLKID=`$PKG_CONFIG --libs blkid`;
+-		 STATIC_LIBBLKID=`$PKG_CONFIG --static --libs blkid`
+-fi
+-
+-fi
+-if test -n "$LIBBLKID"; then
+-	BLKID_CMT=#
+-	PROFILED_LIBBLKID=$LIBBLKID
+-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: Using system blkid library by default" >&5
+-$as_echo "Using system blkid library by default" >&6; }
+-else
+-	LIBBLKID='$(LIB)/libblkid'$LIB_EXT
+-	DEPLIBBLKID=$LIBBLKID
+-	STATIC_LIBBLKID='$(LIB)/libblkid'$STATIC_LIB_EXT
+-	DEPSTATIC_LIBBLKID=$STATIC_LIBBLKID
+-	PROFILED_LIBBLKID='$(LIB)/libblkid'$PROFILED_LIB_EXT
+-	DEPPROFILED_LIBBLKID=$PROFILED_LIBBLKID
+-	$as_echo "#define CONFIG_BUILD_FINDFS 1" >>confdefs.h
+-
+-	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: Enabling private blkid library by default" >&5
+-$as_echo "Enabling private blkid library by default" >&6; }
+-fi
++#	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: Disabling private blkid library" >&5
++#$as_echo "Disabling private blkid library" >&6; }
++#else
++#	LIBBLKID='$(LIB)/libblkid'$LIB_EXT
++#	DEPLIBBLKID=$LIBBLKID
++#	STATIC_LIBBLKID='$(LIB)/libblkid'$STATIC_LIB_EXT
++#	DEPSTATIC_LIBBLKID=$STATIC_LIBBLKID
++#	PROFILED_LIBBLKID='$(LIB)/libblkid'$PROFILED_LIB_EXT
++#	DEPPROFILED_LIBBLKID=$PROFILED_LIBBLKID
++#	$as_echo "#define CONFIG_BUILD_FINDFS 1" >>confdefs.h
++#
++#	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: Enabling private blkid library" >&5
++#$as_echo "Enabling private blkid library" >&6; }
++#fi
++
++#else
++#  if test -n "$PKG_CONFIG"; then
++#	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for blkid_get_cache in -lblkid" >&5
++#$as_echo_n "checking for blkid_get_cache in -lblkid... " >&6; }
++#if ${ac_cv_lib_blkid_blkid_get_cache+:} false; then :
++#  $as_echo_n "(cached) " >&6
++#else
++#  ac_check_lib_save_LIBS=$LIBS
++#LIBS="-lblkid  $LIBS"
++#cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++#/* end confdefs.h.  */
++
++#/* Override any GCC internal prototype to avoid an error.
++#   Use char because int might match the return type of a GCC
++#   builtin and then its argument prototype would still apply.  */
++##ifdef __cplusplus
++#extern "C"
++##endif
++#char blkid_get_cache ();
++#int
++#main ()
++#{
++#return blkid_get_cache ();
++#  ;
++#  return 0;
++#}
++#_ACEOF
++#if ac_fn_c_try_link "$LINENO"; then :
++#  ac_cv_lib_blkid_blkid_get_cache=yes
++#else
++#  ac_cv_lib_blkid_blkid_get_cache=no
++#fi
++#rm -f core conftest.err conftest.$ac_objext \
++#    conftest$ac_exeext conftest.$ac_ext
++#LIBS=$ac_check_lib_save_LIBS
++#fi
++#{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_blkid_blkid_get_cache" >&5
++#$as_echo "$ac_cv_lib_blkid_blkid_get_cache" >&6; }
++#if test "x$ac_cv_lib_blkid_blkid_get_cache" = xyes; then :
++#  LIBBLKID=`$PKG_CONFIG --libs blkid`;
++#		 STATIC_LIBBLKID=`$PKG_CONFIG --static --libs blkid`
++#fi
++
++#fi
++#if test -n "$LIBBLKID"; then
++#	BLKID_CMT=#
++#	PROFILED_LIBBLKID=$LIBBLKID
++#	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: Using system blkid library by default" >&5
++#$as_echo "Using system blkid library by default" >&6; }
++#else
++#	LIBBLKID='$(LIB)/libblkid'$LIB_EXT
++#	DEPLIBBLKID=$LIBBLKID
++#	STATIC_LIBBLKID='$(LIB)/libblkid'$STATIC_LIB_EXT
++#	DEPSTATIC_LIBBLKID=$STATIC_LIBBLKID
++#	PROFILED_LIBBLKID='$(LIB)/libblkid'$PROFILED_LIB_EXT
++#	DEPPROFILED_LIBBLKID=$PROFILED_LIBBLKID
++#	$as_echo "#define CONFIG_BUILD_FINDFS 1" >>confdefs.h
++
++#	{ $as_echo "$as_me:${as_lineno-$LINENO}: result: Enabling private blkid library by default" >&5
++#$as_echo "Enabling private blkid library by default" >&6; }
++#fi
+ 
+-fi
++#fi
+ 
+ 
+ 

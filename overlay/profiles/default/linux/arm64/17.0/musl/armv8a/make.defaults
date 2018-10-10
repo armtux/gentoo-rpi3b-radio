@@ -1,0 +1,10 @@
+# Copyright 1999-2018 Gentoo Foundation.
+# Distributed under the terms of the GNU General Public License v2
+
+CHOST="aarch64-unknown-linux-musleabihf"
+CHOST_arm="${CHOST}"
+
+CFLAGS="-O2 -march=armv8-a+crc -mtune=cortex-a53 -pipe"
+CXXFLAGS="${CFLAGS}"
+FFLAGS="${CFLAGS}"
+FCFLAGS="${CFLAGS}"

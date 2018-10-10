@@ -1,0 +1,62 @@
+Common subdirectories: old/build-aux and new/build-aux
+diff -u old/configure new/configure
+--- old/configure	2018-05-03 00:04:47.199962958 -0000
++++ new/configure	2018-05-03 00:14:00.759959377 -0000
+@@ -2463,31 +2463,8 @@
+ $as_echo "#define F2FS_MINOR_VERSION 10" >>confdefs.h
+ 
+ 
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for .git" >&5
+-$as_echo_n "checking for .git... " >&6; }
+-if ${ac_cv_file__git+:} false; then :
+-  $as_echo_n "(cached) " >&6
+-else
+-  test "$cross_compiling" = yes &&
+-  as_fn_error $? "cannot check for file existence when cross compiling" "$LINENO" 5
+-if test -r ".git"; then
+-  ac_cv_file__git=yes
+-else
+-  ac_cv_file__git=no
+-fi
+-fi
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_file__git" >&5
+-$as_echo "$ac_cv_file__git" >&6; }
+-if test "x$ac_cv_file__git" = xyes; then :
+-
+ $as_echo "#define F2FS_TOOLS_DATE \"2018-01-30\"" >>confdefs.h
+ 
+-else
+-
+-$as_echo "#define F2FS_TOOLS_DATE \"2018-01-30\"" >>confdefs.h
+-
+-fi
+-
+ 
+ 
+ ac_config_headers="$ac_config_headers config.h"
+diff -u old/configure.ac new/configure.ac
+--- old/configure.ac	2018-05-03 00:04:47.199962958 -0000
++++ new/configure.ac	2018-05-03 00:06:30.839962288 -0000
+@@ -20,14 +20,9 @@
+ 				[\([0-9]*\).\([0-9]*\)\(\w\|\W\)*], [\2]),
+ 				[Minor version for f2fs-tools])
+ 
+-AC_CHECK_FILE(.git,
+-	AC_DEFINE([F2FS_TOOLS_DATE],
+-		"m4_bpatsubst(f2fs_tools_gitdate,
+-		[\([0-9-]*\)\(\w\|\W\)*], [\1])",
+-		[f2fs-tools date based on Git commits]),
+-	AC_DEFINE([F2FS_TOOLS_DATE],
++AC_DEFINE([F2FS_TOOLS_DATE],
+ 		"f2fs_tools_date",
+-		[f2fs-tools date based on Source releases]))
++		[f2fs-tools date based on Source releases])
+ 
+ AC_CONFIG_SRCDIR([config.h.in])
+ AC_CONFIG_HEADER([config.h])
+Common subdirectories: old/fsck and new/fsck
+Common subdirectories: old/include and new/include
+Common subdirectories: old/lib and new/lib
+Common subdirectories: old/man and new/man
+Common subdirectories: old/mkfs and new/mkfs
+Common subdirectories: old/tools and new/tools
