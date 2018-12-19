@@ -1,0 +1,20 @@
+diff --git a/lib/ext2fs/ext4_acl.h b/lib/ext2fs/ext4_acl.h
+index 8d4d974..f5ac241 100644
+--- a/lib/ext2fs/ext4_acl.h
++++ b/lib/ext2fs/ext4_acl.h
+@@ -19,6 +19,15 @@
+ #define ACL_TYPE_ACCESS		(0x8000)
+ #define ACL_TYPE_DEFAULT	(0x4000)
+ 
++#ifndef __GNUC_PREREQ
++# if defined(__GNUC__) && defined(__GNUC_MINOR__)
++#  define __GNUC_PREREQ(maj, min) \
++    ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
++# else
++#  define __GNUC_PREREQ(maj, min) 0
++# endif
++#endif
++
+ /* 23.2.7 ACL qualifier constants */
+ 
+ #define ACL_UNDEFINED_ID	((id_t)-1)
